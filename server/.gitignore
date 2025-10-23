@@ -1,0 +1,15 @@
+# /full-stack-project/.gitignore
+
+# Node dependencies for the whole project
+node_modules/
+
+# Dependencies for the server
+/server/node_modules/
+
+# Dependencies for the client (Vite/React)
+/client/node_modules/
+/client/dist/
+
+# Logs and environment variables
+npm-debug.log*
+.env
