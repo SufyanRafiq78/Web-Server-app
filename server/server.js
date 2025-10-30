@@ -8,6 +8,8 @@ const sensorController = require('./controllers/sensorController'); // Assuming 
 const app = express();
 const PORT = 3000;
 
+const db = require('./models');
+
 // Middleware
 app.use(cors());
 app.use(express.json()); // To parse JSON bodies
@@ -38,6 +40,13 @@ app.get('/api/sensors/:id', sensorController.displaySensor);
 app.post('/api/sensors', sensorController.createSensor);
 
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+db.sequelize.sync({ alter: false }) // 'alter: false' is used because we're using migrations to manage schema
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Database connected and models synced.`);
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error('Failed to connect to the database or sync models:', err);
+    });
