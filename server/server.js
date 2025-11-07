@@ -15,6 +15,13 @@ app.use(cors());
 app.use(express.json()); // To parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // To parse form submissions
 
+
+app.get('/', (req, res) => {
+    // Send a simple text response to the root URL
+    res.send('<h1>Welcome to my Web Server App!</h1><p>API endpoints start at /api/...</p>');
+});
+
+
 // --- BOOK ROUTES ---
 // List objects
 app.get('/api/books', bookController.listBooks);
