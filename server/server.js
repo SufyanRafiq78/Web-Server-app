@@ -40,13 +40,15 @@ app.get('/api/sensors/:id', sensorController.displaySensor);
 app.post('/api/sensors', sensorController.createSensor);
 
 
-db.sequelize.sync({ alter: false }) // 'alter: false' is used because we're using migrations to manage schema
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Database connected and models synced.`);
-            console.log(`Server running on http://localhost:${PORT}`);
-        });
-    })
-    .catch(err => {
-        console.error('Failed to connect to the database or sync models:', err);
+db.sequelize.authenticate()
+  .then(() => console.log('✅ Connected to PostgreSQL'))
+  .then(() => db.sequelize.sync({ alter: false }))
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log('✅ Database synced');
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
+  })
+  .catch(err => {
+    console.error('❌ Failed to connect to the database:', err);
+  });
